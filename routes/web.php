@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Auth::routes();
+
+Route::group(
+    ['middleware' => ['auth']],
+    function () {
+        Route::get('/list', [ProductsController::class, 'showList']);
+
+        Route::post('/list', [ProductsController::class, 'showList'])->name('list');
+
+        Route::get('/create', [ProductsController::class, 'createProductForm']);
+
+        Route::post('/create', [ProductsController::class, 'createProducts'])->name('create');
+
+        Route::post('/detail/{id}', [ProductsController::class, 'detailProduct'])->name('detail');
+
+        Route::get('/editForm/{id}', [ProductsController::class, 'editProductForm'])->name('editForm');
+
+        Route::post('/editForm/{id}', [ProductsController::class, 'editProductForm'])->name('editForm');
+
+        Route::patch('/edit', [ProductsController::class, 'editProduct'])->name('edit');
+
+        Route::post('/delete/{id}', [ProductsController::class, 'deleteProduct'])->name('delete');
+    }
+);
