@@ -32,7 +32,7 @@
                 <button type="submit" class="btn btn-warning btn-lg rounded-pill">新規登録</button>
             </div>
             {{ Form::close() }}
-            {{ Form::open(['route' => 'login', 'method' => 'get']) }}
+            {{ Form::open(['url' => '/login', 'method' => 'get']) }}
             <div class="col-xs-4">
                 <button type="submit" class="btn btn-info btn-lg rounded-pill">戻る</button>
             </div>

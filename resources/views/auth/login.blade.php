@@ -4,7 +4,7 @@
 <div class="container">
     <h1>ユーザーログイン画面</h1>
     <div class="p-login">
-        {{ Form::open(['route' => 'login']) }}
+        {{ Form::open(['url' => '/login']) }}
         @csrf
         <div class="mb-3 ">
             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="アドレス" value="{{ old('email') }}" required autocomplete="email" autofocus>

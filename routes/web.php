@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
+Route::get('/login', function () {
+    return view('auth.login');
+});
+
 Route::group(
     ['middleware' => ['auth']],
     function () {
