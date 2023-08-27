@@ -16,9 +16,7 @@ class ProductsController extends Controller
         $query = Products::with('company');
         $keyword = $request->input('keyword');
         $company_name = $request->input('company');
-        // 検索ワードもメーカー名も入力されている場合
         if (!empty($keyword) && !empty($company_name)) {
-            // フリーワード検索
             if ($request->has('keyword')) {
                 $query->where(function ($q) use ($keyword) {
                     $q->where('product_name', 'like', "%{$keyword}%")
@@ -27,15 +25,11 @@ class ProductsController extends Controller
                         ->orWhere('comment', 'like', "%{$keyword}%");
                 });
             }
-
-            // プルダウンの検索
             if ($request->has('company')) {
                 $query->whereHas('company', function ($q) use ($company_name) {
                     $q->where('company_name', $company_name);
                 });
             }
-
-            // 検索ワードのみ入力されている場合
         } elseif (!empty($keyword) && empty($company_name)) {
             $query->where(function ($q) use ($keyword) {
                 $q->where('product_name', 'like', "%{$keyword}%")
@@ -60,12 +54,12 @@ class ProductsController extends Controller
         return view('create', ['companies' => $companies]);
     }
 
-    public function createProducts(ProductsRequest $request)
+    public function createProduct(ProductsRequest $request)
     {
         DB::beginTransaction();
         try {
             $product = new Products();
-            $product->registProducts($request);
+            $product->registProduct($request);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -94,7 +88,7 @@ class ProductsController extends Controller
         DB::beginTransaction();
         try {
             $product = Products::find($request->id);
-            $product->updateProducts($request);
+            $product->updateProduct($request);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

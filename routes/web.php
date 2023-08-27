@@ -19,10 +19,6 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/login', function () {
-    return view('auth.login');
-});
-
 Route::group(
     ['middleware' => ['auth']],
     function () {
@@ -32,7 +28,7 @@ Route::group(
 
         Route::get('/create', [ProductsController::class, 'createProductForm']);
 
-        Route::post('/create', [ProductsController::class, 'createProducts'])->name('create');
+        Route::post('/create', [ProductsController::class, 'createProduct'])->name('create');
 
         Route::post('/detail/{id}', [ProductsController::class, 'detailProduct'])->name('detail');
 

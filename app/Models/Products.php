@@ -18,7 +18,7 @@ class Products extends Model
         return $this->belongsTo(Companies::class, 'company_id');
     }
 
-    public function registProducts($data)
+    public function registProduct($data)
     {
         $file_path = $data->file('image');
         if (isset($file_path)) {
@@ -47,7 +47,7 @@ class Products extends Model
         }
     }
 
-    public function updateProducts($data)
+    public function updateProduct($data)
     {
         $file_path = $data->file('image');
         $product_id = Products::find($data->id);
