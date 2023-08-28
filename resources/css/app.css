@@ -19,42 +19,13 @@ h1 {
     text-align: center;
 }
 
-.p-form__user,
-.p-form__email,
-.p-form__password,
-.p-form__confirm {
-    margin: 30px 0;
-}
-
-.p-form__user--box,
-.p-form__email--box,
-.p-form__password--box,
-.p-form__confirm--box {
-    width: 100%;
-    padding: 5px;
-    border: solid 1px #ccc;
-    border-radius: 5px;
-}
-
 .p-login .btn-toolbar,
 .p-register .btn-toolbar {
     justify-content: space-around;
 }
 
-.p-create .form-control,
-.p-create .form-select,
-.p-edit .form-control,
-.p-edit .form-select {
-    width: 80%;
-}
-
 .p-search {
     margin-bottom: 60px;
-}
-
-.p-search__keyword,
-.p-search__company {
-    float: left;
 }
 
 .p-list th,
@@ -63,32 +34,20 @@ h1 {
 }
 
 .p-list img,
-.p-detail img {
+.p-detail img,
+.p-edit img {
     width: 70px;
     height: 70px;
     object-fit: cover;
-}
-
-.p-list p {
-    margin: 0;
 }
 
 .p-list .pagination {
     justify-content: center;
 }
 
-.p-create div,
-.p-edit div {
-    margin-bottom: 30px;
-}
-
 .p-create div:last-of-type,
 .p-edit div:last-of-type {
     margin-bottom: 50px;
-}
-
-.p-detail__form {
-    display: flex;
 }
 
 .p-create label,
@@ -101,8 +60,6 @@ h1 {
     color: red;
 }
 
-.p-edit img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
+textarea {
+    resize: none;
 }

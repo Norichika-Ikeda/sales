@@ -7,21 +7,21 @@
         {{ Form::open(['route' => 'edit', 'files' => true]) }}
         @method('PATCH')
         @csrf
-        <div class="p-edit__form">
-            <label for="" class="col-sm-4 col-form-label">ID</label>
+        <div class="p-edit__form d-flex align-items-center mb-4">
+            <label for="" class="col-sm-4">ID</label>
             <input type="hidden" name="id" class="p-edit__id--box" value="{{ $product->id }}">
-            <p>{{ $product->id }}</p>
+            <p class="my-0">{{ $product->id }}</p>
         </div>
-        <div class="p-edit__form form-group row form-group row">
+        <div class="p-edit__form form-group row mb-4">
             <label for="" class="col-sm-4 col-form-label">商品名<span>*</span></label>
-            <input type="text" name="product" class="form-control @error('product') is-invalid @enderror" value="{{ $product->product_name }}" autocomplete="product" autofocus>
+            <input type="text" name="product" class="form-control w-75 @error('product') is-invalid @enderror" value="{{ $product->product_name }}" autocomplete="product" autofocus>
             @if($errors->has('product'))
             <p>{{ $errors->first('product') }}</p>
             @endif
         </div>
-        <div class="p-edit__form form-group row form-group row">
+        <div class="p-edit__form form-group row mb-4">
             <label for="" class="col-sm-4 col-form-label">メーカー名<span>*</span></label>
-            <select name="company" class="form-select @error('company') is-invalid @enderror">
+            <select name="company" class="form-select w-75 @error('company') is-invalid @enderror">
                 <option value=" {{ $product->company->id }}" selected hidden>{{ $product->company->company_name }}</option>
                 @foreach ($companies as $company)
                 <option value="{{ $company->id }}">{{ $company->company_name }}</option>
@@ -31,27 +31,27 @@
             <p>{{ $errors->first('company') }}</p>
             @endif
         </div>
-        <div class="p-edit__form form-group row form-group row">
+        <div class="p-edit__form form-group row mb-4">
             <label for="" class="col-sm-4 col-form-label">価格<span>*</span></label>
-            <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" value="{{ $product->price }}" autocomplete="price" autofocus>
+            <input type="text" name="price" class="form-control w-75 @error('price') is-invalid @enderror" value="{{ $product->price }}" autocomplete="price" autofocus>
             @if($errors->has('price'))
             <p>{{ $errors->first('price') }}</p>
             @endif
         </div>
-        <div class="p-edit__form form-group row form-group row">
+        <div class="p-edit__form form-group row mb-4">
             <label for="" class="col-sm-4 col-form-label">在庫数<span>*</span></label>
-            <input type="text" name="stock" class="form-control @error('stock') is-invalid @enderror" value="{{ $product->stock }}" autocomplete="stock" autofocus>
+            <input type="text" name="stock" class="form-control w-75 @error('stock') is-invalid @enderror" value="{{ $product->stock }}" autocomplete="stock" autofocus>
             @if($errors->has('stock'))
             <p>{{ $errors->first('stock') }}</p>
             @endif
         </div>
-        <div class="p-edit__form form-group row form-group row">
+        <div class="p-edit__form form-group row mb-4">
             <label for="" class="col-sm-4 col-form-label">コメント</label>
-            <input type="text" name="comment" class="form-control" value="{{ $product->comment }}">
+            <textarea name="comment" class="form-control w-75" rows="3">{{ $product->comment }}</textarea>
         </div>
-        <div class="p-edit__form form-group row form-group row">
+        <div class="p-edit__form form-group row mb-5">
             <label for="" class="col-sm-4 col-form-label">商品画像</label>
-            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
+            <input type="file" name="image" class="form-control w-75 @error('image') is-invalid @enderror">
             @if($product->img_path)
             <img src="{{ asset('storage/images/' . $product->img_path) }}">
             @endif

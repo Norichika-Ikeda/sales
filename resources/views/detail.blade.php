@@ -6,13 +6,13 @@
     <div class="p-detail">
         {{ Form::open(['url' => 'editForm/' . $details->id]) }}
         @csrf
-        <div class="p-detail__form">
+        <div class="p-detail__form d-flex align-items-center">
             <label for="" class="col-sm-4">ID</label>
-            <p>{{ $details->id }}</p>
+            <p class="my-3">{{ $details->id }}</p>
         </div>
-        <div class="p-detail__form">
+        <div class="p-detail__form d-flex align-items-center">
             <label for="" class="col-sm-4">商品画像</label>
-            <p>
+            <p class="my-3">
                 @if($details->img_path)
                 <img src="{{ asset('storage/images/' . $details->img_path) }}">
                 @else
@@ -20,25 +20,25 @@
                 @endif
             </p>
         </div>
-        <div class="p-detail__form">
-            <label for="" class="col-sm-4">商品名</label>
-            <p>{{ $details->product_name }}</p>
+        <div class="p-detail__form d-flex align-items-center">
+            <label for="" class=" col-sm-4">商品名</label>
+            <p class="my-3">{{ $details->product_name }}</p>
         </div>
-        <div class="p-detail__form">
+        <div class="p-detail__form d-flex align-items-center">
             <label for="" class="col-sm-4">メーカー名</label>
-            <p>{{ $details->company->company_name }}</p>
+            <p class="my-3">{{ $details->company->company_name }}</p>
         </div>
-        <div class="p-detail__form">
+        <div class="p-detail__form d-flex align-items-center">
             <label for="" class="col-sm-4">価格</label>
-            <p>￥{{ $details->price }}</p>
+            <p class="my-3">￥{{ $details->price }}</p>
         </div>
-        <div class="p-detail__form">
+        <div class="p-detail__form d-flex align-items-center">
             <label for="" class="col-sm-4">在庫数</label>
-            <p>{{ $details->stock }}</p>
+            <p class="my-3">{{ $details->stock }}</p>
         </div>
-        <div class="p-detail__form">
+        <div class="p-detail__form d-flex align-items-center mb-4">
             <label for="" class="col-sm-4">コメント</label>
-            <p>{{ $details->comment }}</p>
+            <p class="my-3">{{ $details->comment }}</p>
         </div>
         <div class="btn-toolbar">
             <button type="submit" class="btn btn-warning me-4">編集</button>

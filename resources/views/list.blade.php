@@ -6,10 +6,10 @@
     <div class="row p-search">
         {{ Form::open(['route' => 'list', 'method' => 'GET']) }}
         @csrf
-        <div class="col-6 p-search__keyword">
+        <div class="col-6 float-start">
             {{ Form::input('text', 'keyword', null, ['class' => 'p-search__keyword--box form-control input-group-prepend', 'placeholder' => '検索キーワード']) }}
         </div>
-        <div class="col-3 form-group p-search__company">
+        <div class="col-3 float-start form-group">
             <select name="company" class="form-select">
                 <option value="" disabled selected style=" display:none;">メーカー名</option>
                 @foreach ($companies as $company)
@@ -45,7 +45,7 @@
                         @if($product->img_path)
                         <img src="{{ asset('storage/images/' . $product->img_path) }}">
                         @else
-                        <p>商品画像</p>
+                        <p class="m-0">商品画像</p>
                         @endif
                     </td>
                     <td>{{ $product->product_name }}</td>
