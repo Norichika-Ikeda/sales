@@ -12,7 +12,6 @@ class ProductsController extends Controller
     public function showList(Request $request)
     {
         $companies = DB::table('companies')->get();
-        $products = Products::with('company:id,company_name')->paginate(5);
         $query = Products::with('company');
         $keyword = $request->input('keyword');
         $company_name = $request->input('company');

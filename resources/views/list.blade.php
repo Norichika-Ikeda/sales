@@ -7,7 +7,7 @@
         {{ Form::open(['route' => 'list', 'method' => 'GET']) }}
         @csrf
         <div class="col-6 float-start">
-            {{ Form::input('text', 'keyword', null, ['class' => 'p-search__keyword--box form-control input-group-prepend', 'placeholder' => '検索キーワード']) }}
+            {{ Form::input('text', 'keyword', null, ['class' => 'form-control input-group-prepend', 'placeholder' => '検索キーワード']) }}
         </div>
         <div class="col-3 float-start form-group">
             <select name="company" class="form-select">
@@ -26,7 +26,7 @@
     </div>
     <div class="p-list">
         <table class="table table-striped table-bordered text-center">
-            <thead class="thead-dark">
+            <thead>
                 <tr>
                     <th>ID</th>
                     <th>商品画像</th>

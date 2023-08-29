@@ -16,7 +16,7 @@
         <div class="p-create__form form-group row mb-4">
             <label for="" class="col-sm-4 col-form-label">メーカー名<span>*</span></label>
             <select name="company" class="form-select w-75 @error('company') is-invalid @enderror">
-                <option value=""></option>
+                <option value="" disabled selected style=" display:none;"></option>
                 @foreach ($companies as $company)
                 <option value=" {{ $company->id }}">{{ $company->company_name }}</option>
                 @endforeach
