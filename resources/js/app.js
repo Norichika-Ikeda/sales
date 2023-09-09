@@ -23,7 +23,7 @@ $(function () {
             dataType: 'json', //json形式で受け取る
         }).done(function (data) {
             console.log(data);
-            let res = data.data;
+            let res = data.products.data;
             console.log(res);
             $.each(res, function (index, value) {
                 let id = value.id;
@@ -52,19 +52,19 @@ $(function () {
                 html += '</td>';
                 $('.p-list tbody').append(html);
 
+            })
             let next_page_url = data.next_page_url;
             let prev_page_url = data.prev_page_url;
             let last_page = data.last_page;
             console.log(next_page_url);
             console.log(prev_page_url);
-                console.log(last_page);
+            console.log(last_page);
 
-                if (prev_page_url == null) {
-                    $('.pagination').append('<li class="page-item disabled" aria-disabled="true" aria-label="« Previous"><span class="page-link" aria-hidden="true">‹</span></li>');
-                } else {
-                    $('.pagination').append('<li class="page-item disabled" aria-disabled="true" aria-label="« Previous"></li>');
+            if (prev_page_url !== null) {
+                $('.pagination').append('<li class="page-item disabled" aria-disabled="true" aria-label="« Previous"><span class="page-link" aria-hidden="true">‹</span></li>');
+            } else {
+                $('.pagination').append('<li class="page-item disabled" aria-disabled="true" aria-label="« Previous"></li>');
             }
-            })
 
         }).fail(function () {
             //ajax通信がエラーのときの処理

@@ -51,11 +51,15 @@ class ProductsController extends Controller
             $query = Products::with('company:id,company_name');
         }
         $products = $query->sortable()->orderByDesc('id')->paginate(5);
-        $page = $request->input('page');
-        if (empty($page)) {
-            $page = 1;
-        }
-        return response()->json($products);
+        $products->withPath('');
+        $param['keyword'] = $request->keyword;
+        $param['company'] = $request->company;
+        return response()->json(
+            compact('products', 'param'),
+            200,
+            [],
+            JSON_UNESCAPED_UNICODE
+        );
     }
 
     public function createProductForm()
