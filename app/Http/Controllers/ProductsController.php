@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
-    public function showList()
+    public function showList(Request $request)
     {
         $companies = DB::table('companies')->get();
         $query = Products::with('company');
@@ -20,40 +20,45 @@ class ProductsController extends Controller
     public function searchList(Request $request)
     {
         $query = Products::with('company:id,company_name');
-        $search_keyword = $request->keyword;
-        $search_company = $request->company;
-        if (!empty($search_keyword) && !empty($search_company)) {
-            if ($request->has('keyword')) {
-                $query->where(function ($q) use ($search_keyword) {
-                    $q->where('product_name', 'like', "%{$search_keyword}%")
-                        ->orWhere('price', 'like', "%{$search_keyword}%")
-                        ->orWhere('stock', 'like', "%{$search_keyword}%")
-                        ->orWhere('comment', 'like', "%{$search_keyword}%");
-                });
-            }
-            if ($request->has('company')) {
-                $query->whereHas('company', function ($q) use ($search_company) {
-                    $q->where('company_name', $search_company);
-                });
-            }
-        } elseif (!empty($search_keyword) && empty($search_company)) {
-            $query->where(function ($q) use ($search_keyword) {
-                $q->where('product_name', 'like', "%{$search_keyword}%")
-                    ->orWhere('price', 'like', "%{$search_keyword}%")
-                    ->orWhere('stock', 'like', "%{$search_keyword}%")
-                    ->orWhere('comment', 'like', "%{$search_keyword}%");
+        $keyword = $request->input('keyword');
+        $company = $request->input('company');
+        $lower_price = $request->input('lower_price');
+        $upper_price = $request->input('upper_price');
+        $lower_stock = $request->input('lower_stock');
+        $upper_stock = $request->input('upper_stock');
+        if (!empty($keyword)) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('product_name', 'like', "%{$keyword}%")
+                    ->orWhere('price', 'like', "%{$keyword}%")
+                    ->orWhere('stock', 'like', "%{$keyword}%")
+                    ->orWhere('comment', 'like', "%{$keyword}%");
             });
-        } elseif (empty($search_keyword) && !empty($search_company)) {
-            $query->whereHas('company', function ($q) use ($search_company) {
-                $q->where('company_name', $search_company);
+        }
+        if (!empty($company)) {
+            $query->whereHas('company', function ($q) use ($company) {
+                $q->where('company_name', $company);
             });
-        } else {
-            $query = Products::with('company:id,company_name');
+        }
+        if (!empty($lower_price)) {
+            $query->where('price', '>=', $lower_price);
+        }
+        if (!empty($upper_price)) {
+            $query->where('price', '<=', $upper_price);
+        }
+        if (!empty($lower_stock)) {
+            $query->where('stock', '>=', $lower_stock);
+        }
+        if (!empty($upper_stock)) {
+            $query->where('stock', '<=', $upper_stock);
         }
         $products = $query->sortable()->orderByDesc('id')->paginate(5);
         $products->withPath('');
         $param['keyword'] = $request->keyword;
         $param['company'] = $request->company;
+        $param['lower_price'] = $request->input('lower_price');
+        $param['upper_price'] = $request->input('upper_price');
+        $param['lower_stock'] = $request->input('lower_stock');
+        $param['upper_stock'] = $request->input('upper_stock');
         return response()->json(
             compact('products', 'param'),
             200,
@@ -111,10 +116,9 @@ class ProductsController extends Controller
         return redirect()->route('editForm', ['id' => $request->id]);
     }
 
-    public function deleteProduct($id)
+    public function deleteProduct(Request $request)
     {
-        $product = new Products();
-        $product->deleteProducts($id);
-        return redirect()->route('list');
+        $delete_product = Products::findOrFail($request->id);
+        $delete_product->delete();
     }
 }

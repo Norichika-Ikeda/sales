@@ -28,6 +28,12 @@ h1 {
     margin-bottom: 60px;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .p-list th,
 .p-list td {
     vertical-align: middle;

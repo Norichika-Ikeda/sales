@@ -4,8 +4,8 @@
 <div class="container">
     <h2>商品一覧画面</h2>
     <div class="row p-search">
-        <div class="col-6 float-start">
-            {!! Form::input('text', 'keyword', null, ['id' => 'keyword', 'class' => 'form-control input-group-prepend', 'placeholder' => '検索キーワード']) !!}
+        <div class="col-8 float-start">
+            {{ Form::input('text', 'keyword', null, ['id' => 'keyword', 'class' => 'form-control input-group-prepend', 'placeholder' => '検索キーワード']) }}
         </div>
         <div class="col-4 float-start form-group">
             <select name="company" id="company" class="form-select">
@@ -15,10 +15,26 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-2 p-search__box">
-            <button type="button" class="btn btn-secondary p-search__box--btn"></i>
-                検索
-            </button>
+        <div class="mt-4 d-flex align-items-center">
+            <div class=" col-2 float-start form-group">
+                {{ Form::input('number', 'lower_price', null, ['id' => 'lower_price', 'class' => 'form-control input-group-prepend', 'placeholder' => '下限価格']) }}
+            </div>
+            <p class="w-auto mx-3 mb-0 align-items-center text-center">~</p>
+            <div class="col-2 me-3 float-start form-group">
+                {{ Form::input('number', 'upper_price', null, ['id' => 'upper_price', 'class' => 'form-control input-group-prepend', 'placeholder' => '上限価格']) }}
+            </div>
+            <div class="col-2 ms-3 float-start form-group">
+                {{ Form::input('number', 'lower_stock', null, ['id' => 'lower_stock', 'class' => 'form-control input-group-prepend', 'placeholder' => '下限在庫数']) }}
+            </div>
+            <p class="w-auto mx-3 mb-0 align-items-center text-center">~</p>
+            <div class="col-2 float-start form-group">
+                {{ Form::input('number', 'upper_stock', null, ['id' => 'upper_stock', 'class' => 'form-control input-group-prepend', 'placeholder' => '上限在庫数']) }}
+            </div>
+            <div class="col-2 text-end ml-auto p-search__box">
+                <button type="button" class="btn btn-secondary px-4 p-search__box--btn"></i>
+                    検索
+                </button>
+            </div>
         </div>
     </div>
     <div class="p-list">
@@ -49,14 +65,11 @@
                     <td>￥{{ $product->price }}</td>
                     <td>{{ $product->stock }}</td>
                     <td>{{ $product->company->company_name }}</td>
-                    {!! Form::open(['url' => 'detail/' .$product->id, 'method' => 'GET']) !!}
+                    {{ Form::open(['url' => 'detail/' .$product->id, 'method' => 'GET']) }}
                     @csrf
                     <td class="p-list__detail"><button type="submit" class="btn btn-info">詳細</button></td>
-                    {!! Form::close() !!}
-                    {!! Form::open(['url' => 'delete/' .$product->id]) !!}
-                    @csrf
-                    <td class="p-list__remove"><button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？')">削除</button></td>
-                    {!! Form::close() !!}
+                    {{ Form::close() }}
+                    <td class="p-list__remove"><button type="submit" id="{{ $product->id }}" class="btn btn-danger">削除</button></td>
                 </tr>
                 @endforeach
             </tbody>

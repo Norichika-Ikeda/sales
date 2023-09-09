@@ -26,7 +26,7 @@ Route::group(
 
         Route::post('/list', [ProductsController::class, 'showList'])->name('list');
 
-        Route::get('/list/{keyword}{company}', [ProductsController::class, 'searchList']);
+        Route::get('/json', [ProductsController::class, 'searchList']);
 
         Route::get('/create', [ProductsController::class, 'createProductForm']);
 
@@ -40,6 +40,6 @@ Route::group(
 
         Route::patch('/edit', [ProductsController::class, 'editProduct'])->name('edit');
 
-        Route::post('/delete/{id}', [ProductsController::class, 'deleteProduct'])->name('delete');
+        Route::delete('/delete/{id}', [ProductsController::class, 'deleteProduct'])->name('delete');
     }
 );
