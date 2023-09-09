@@ -6,16 +6,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Companies;
 use Illuminate\Support\Facades\DB;
+use Kyslik\ColumnSortable\Sortable;
 
 class Products extends Model
 {
     use HasFactory;
+    use Sortable;
 
     protected $guarded = [];
+    public $sortable = ['id', 'img_path', 'product_name', 'price', 'stock', 'company_name'];
 
     public function company()
     {
         return $this->belongsTo(Companies::class, 'company_id');
+    }
+
+    public function companyNameSortable($query, $direction)
+    {
+        return $query->leftjoin('companies', 'products.company_id', '=', 'companies.id')
+            ->select('products.*')
+            ->orderBy('companies.company_name', $direction);
     }
 
     public function registProduct($data)

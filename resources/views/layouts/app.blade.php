@@ -14,6 +14,9 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('../resources/css/app.css') }}">
     @stack('style')
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <script src=" https://code.jquery.com/jquery-3.7.0.min.js">
+    </script>
 </head>
 
 <body>

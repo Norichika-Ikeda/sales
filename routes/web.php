@@ -26,11 +26,13 @@ Route::group(
 
         Route::post('/list', [ProductsController::class, 'showList'])->name('list');
 
+        Route::get('/list/{keyword}{company}', [ProductsController::class, 'searchList']);
+
         Route::get('/create', [ProductsController::class, 'createProductForm']);
 
         Route::post('/create', [ProductsController::class, 'createProduct'])->name('create');
 
-        Route::post('/detail/{id}', [ProductsController::class, 'detailProduct'])->name('detail');
+        Route::get('/detail/{id}', [ProductsController::class, 'detailProduct'])->name('detail');
 
         Route::get('/editForm/{id}', [ProductsController::class, 'editProductForm'])->name('editForm');
 

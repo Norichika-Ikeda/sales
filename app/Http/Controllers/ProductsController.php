@@ -9,42 +9,53 @@ use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
-    public function showList(Request $request)
+    public function showList()
     {
         $companies = DB::table('companies')->get();
         $query = Products::with('company');
-        $keyword = $request->input('keyword');
-        $company_name = $request->input('company');
-        if (!empty($keyword) && !empty($company_name)) {
+        $products = $query->sortable()->orderByDesc('id')->paginate(5);
+        return view('list', ['products' => $products, 'companies' => $companies]);
+    }
+
+    public function searchList(Request $request)
+    {
+        $query = Products::with('company:id,company_name');
+        $search_keyword = $request->keyword;
+        $search_company = $request->company;
+        if (!empty($search_keyword) && !empty($search_company)) {
             if ($request->has('keyword')) {
-                $query->where(function ($q) use ($keyword) {
-                    $q->where('product_name', 'like', "%{$keyword}%")
-                        ->orWhere('price', 'like', "%{$keyword}%")
-                        ->orWhere('stock', 'like', "%{$keyword}%")
-                        ->orWhere('comment', 'like', "%{$keyword}%");
+                $query->where(function ($q) use ($search_keyword) {
+                    $q->where('product_name', 'like', "%{$search_keyword}%")
+                        ->orWhere('price', 'like', "%{$search_keyword}%")
+                        ->orWhere('stock', 'like', "%{$search_keyword}%")
+                        ->orWhere('comment', 'like', "%{$search_keyword}%");
                 });
             }
             if ($request->has('company')) {
-                $query->whereHas('company', function ($q) use ($company_name) {
-                    $q->where('company_name', $company_name);
+                $query->whereHas('company', function ($q) use ($search_company) {
+                    $q->where('company_name', $search_company);
                 });
             }
-        } elseif (!empty($keyword) && empty($company_name)) {
-            $query->where(function ($q) use ($keyword) {
-                $q->where('product_name', 'like', "%{$keyword}%")
-                    ->orWhere('price', 'like', "%{$keyword}%")
-                    ->orWhere('stock', 'like', "%{$keyword}%")
-                    ->orWhere('comment', 'like', "%{$keyword}%");
+        } elseif (!empty($search_keyword) && empty($search_company)) {
+            $query->where(function ($q) use ($search_keyword) {
+                $q->where('product_name', 'like', "%{$search_keyword}%")
+                    ->orWhere('price', 'like', "%{$search_keyword}%")
+                    ->orWhere('stock', 'like', "%{$search_keyword}%")
+                    ->orWhere('comment', 'like', "%{$search_keyword}%");
             });
-        } elseif (empty($keyword) && !empty($company_name)) {
-            $query->whereHas('company', function ($q) use ($company_name) {
-                $q->where('company_name', $company_name);
+        } elseif (empty($search_keyword) && !empty($search_company)) {
+            $query->whereHas('company', function ($q) use ($search_company) {
+                $q->where('company_name', $search_company);
             });
         } else {
             $query = Products::with('company:id,company_name');
         }
-        $products = $query->paginate(5);
-        return view('list', ['products' => $products, 'companies' => $companies]);
+        $products = $query->sortable()->orderByDesc('id')->paginate(5);
+        $page = $request->input('page');
+        if (empty($page)) {
+            $page = 1;
+        }
+        return response()->json($products);
     }
 
     public function createProductForm()
