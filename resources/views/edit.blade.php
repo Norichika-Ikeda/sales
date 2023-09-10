@@ -62,7 +62,7 @@
         <div class="btn-toolbar">
             <button type="submit" class="btn btn-warning me-4">更新</button>
             {{ Form::close() }}
-            {{ Form::open(['url' => 'detail/' .$product->id]) }}
+            {{ Form::open(['url' => 'detail/' .$product->id, 'method' => 'GET']) }}
             <button type="submit" class="btn btn-info">戻る</button>
             {{ Form::close() }}
         </div>

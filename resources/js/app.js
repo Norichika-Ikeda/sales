@@ -18,23 +18,20 @@ $(function () {
         } //ガード節で検索ワードが空の時、ここで処理を止めて何もビューに出さない
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            url: 'json',
             type: 'GET',
-            cache: false,
+            url: 'search',
             async: false,
             data: {
-                'keyword': keyword,
-                'company': company,
-                'lower_price': lower_price,
-                'upper_price': upper_price,
-                'lower_stock': lower_stock,
-                'upper_stock': upper_stock
+                keyword: keyword,
+                company: company,
+                lower_price: lower_price,
+                upper_price: upper_price,
+                lower_stock: lower_stock,
+                upper_stock: upper_stock
             },
             dataType: 'json', //json形式で受け取る
         }).done(function (data) {
-            console.log(data);
             let res = data.products.data;
-            console.log(res);
             $.each(res, function (index, value) {
                 let id = value.id;
                 let img_path = value.img_path;
@@ -63,13 +60,9 @@ $(function () {
             })
 
             let page = data.products.current_page;
-            console.log(page);
             let next_page_url = data.products.next_page_url;
             let prev_page_url = data.products.prev_page_url;
             let last_page = data.products.last_page;
-            console.log(next_page_url);
-            console.log(prev_page_url);
-                console.log(last_page);
 
             //ページネーター描画
             //Prev 制御

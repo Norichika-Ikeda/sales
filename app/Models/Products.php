@@ -81,9 +81,4 @@ class Products extends Model
             ]);
         }
     }
-
-    public function deleteProducts($id)
-    {
-        return $this->destroy($id);
-    }
 }

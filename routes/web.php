@@ -26,7 +26,7 @@ Route::group(
 
         Route::post('/list', [ProductsController::class, 'showList'])->name('list');
 
-        Route::get('/json', [ProductsController::class, 'searchList']);
+        Route::get('/search', [ProductsController::class, 'searchList']);
 
         Route::get('/create', [ProductsController::class, 'createProductForm']);
 
