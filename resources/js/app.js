@@ -1,5 +1,11 @@
 import './bootstrap';
 
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    }
+});
+
 $(function () {
     $('.p-search__box--btn').on('click', function () {
         $('.p-list tbody').empty(); //もともとある要素を空にする
@@ -50,7 +56,7 @@ $(function () {
                 html += `<td>￥${price}</td>`;
                 html += `<td>${stock}</td>`;
                 html += `<td>${company_name}</td>`;
-                let detail_form = `<form action="http://localhost/sales/public/detail/${id}" method="GET">`;
+                let detail_form = `<form action="detail/${id}" method="GET">`;
                 detail_form += '<button type="submit" class="btn btn-info">詳細</button>';
                 detail_form += '</form>';
                 html += `<td class="p-list__detail">${detail_form}</td>`;
@@ -67,9 +73,9 @@ $(function () {
             //ページネーター描画
             //Prev 制御
             if (prev_page_url == null) {
-                $(".pagination").append("<li class='page-item disabled'><a class='page-link' href=''>«</a></li>")
+                $(".pagination").append("<li class='page-item disabled' aria-disabled='true' aria-label='« Previous'><span class='page-link' aria-hidden='true'>‹</span></li>")
             } else {
-                $(".pagination").append("<li class='page-item'><a class='page-link' href='http://localhost/sales/public/list?page="+(page-1)+"'>«</a></li>");
+                $(".pagination").append("<li class='page-item'><button class='page-link' href='list?page="+(page-1)+" rel='prev' aria-label='« Previous'>‹</button></li>");
             }
 
             //ページリンク
@@ -80,17 +86,17 @@ $(function () {
                 //activeにするかどうか
                 if(page==link_page)
                 {
-                    $(".pagination").append("<li class='page-item active'><a class='page-link' href='http://localhost/sales/public/list?page="+link_page+"'>"+link_page+"</a></li>");
+                    $(".pagination").append("<li class='page-item active'><span class='page-link'>"+link_page+"</span></li>");
                 }else{
-                    $(".pagination").append("<li class='page-item'><a class='page-link' href='http://localhost/sales/public/list?page="+link_page+"'>"+link_page+"</a></li>");
+                    $(".pagination").append("<li class='page-item'><button class='page-link' href='list?page="+link_page+"'>"+link_page+"</button></li>");
                 }
             }
 
             //Next制御
             if(next_page_url == null){
-                $(".pagination").append("<li class='page-item disabled'><a class='page-link' href=''>»</a></li>");
+                $(".pagination").append("<li class='page-item disabled' aria-disabled='true' aria-label='Next »'><span class='page-link' aria-hidden='true'>›</span></li>");
             }else{
-                $(".pagination").append("<li class='page-item'><a class='page-link' href='http://localhost/sales/public/list?page="+(page+1)+"'>»</a></li>");
+                $(".pagination").append("<li class='page-item'><button class='page-link' href='list?keyword="+keyword+"&company="+company+"&lower_price="+lower_price+"&upper_price="+upper_price+"&lower_stock="+lower_stock+"&upper_stock="+upper_stock+"&page="+(page+1)+"' rel='next' aria-label='Next »'>›</button></li>");
             }
 
         }).fail(function () {
@@ -99,12 +105,6 @@ $(function () {
         })
     })
 })
-
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-    }
-});
 
 $(function () {
     $(document).on('click', '.p-list__remove button', function () {

@@ -20,6 +20,11 @@ class Products extends Model
         return $this->belongsTo(Companies::class, 'company_id');
     }
 
+    public function sales()
+    {
+        return $this->hasMany(Sales::class, 'product_id');
+    }
+
     public function companyNameSortable($query, $direction)
     {
         return $query->leftjoin('companies', 'products.company_id', '=', 'companies.id')
