@@ -52,7 +52,6 @@ class ProductsController extends Controller
             $query->where('stock', '<=', $upper_stock);
         }
         $products = $query->sortable()->orderByDesc('id')->paginate(5);
-        $products->withPath('');
         $param['keyword'] = $request->keyword;
         $param['company'] = $request->company;
         $param['lower_price'] = $request->input('lower_price');

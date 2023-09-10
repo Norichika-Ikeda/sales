@@ -74,7 +74,7 @@ $(function () {
             //ページネーター描画
             //Prev 制御
             if (prev_page_url == null) {
-                $(".pagination").append('<li class="page-item disabled"><a class="page-link" href="">«</a></li>')
+                $(".pagination").append("<li class='page-item disabled'><a class='page-link' href=''>«</a></li>")
             } else {
                 $(".pagination").append("<li class='page-item'><a class='page-link' href='http://localhost/sales/public/list?page="+(page-1)+"'>«</a></li>");
             }

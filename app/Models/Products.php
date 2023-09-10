@@ -10,8 +10,7 @@ use Kyslik\ColumnSortable\Sortable;
 
 class Products extends Model
 {
-    use HasFactory;
-    use Sortable;
+    use HasFactory, Sortable;
 
     protected $guarded = [];
     public $sortable = ['id', 'img_path', 'product_name', 'price', 'stock', 'company_name'];
