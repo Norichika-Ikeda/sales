@@ -6,6 +6,7 @@ use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductsRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class ProductsController extends Controller
 {
@@ -13,7 +14,7 @@ class ProductsController extends Controller
     {
         $companies = DB::table('companies')->get();
         $query = Products::with('company');
-        $products = $query->sortable()->orderByDesc('id')->paginate(5);
+        $products = $query->sortable()->orderByDesc('id')->paginate(3);
         return view('list', ['products' => $products, 'companies' => $companies]);
     }
 
@@ -51,7 +52,15 @@ class ProductsController extends Controller
         if (!empty($upper_stock)) {
             $query->where('stock', '<=', $upper_stock);
         }
-        $products = $query->sortable()->orderByDesc('id')->paginate(5);
+        $products = $query->sortable()->orderByDesc('id')->paginate(4);
+        $paginator = DB::table('products')->paginate(10);
+        $items = $paginator->items();
+        $nextPageUrl = $paginator->nextPageUrl();
+        // $nextPageUrl = $products->nextPageUrl();
+        // if ($nextPageUrl) {
+        //     // 次のページのデータを取得
+        //     $nextPageData = $nextPageUrl->nextPageItems();
+        // }
         $param['keyword'] = $request->keyword;
         $param['company'] = $request->company;
         $param['lower_price'] = $request->input('lower_price');
@@ -64,6 +73,10 @@ class ProductsController extends Controller
             [],
             JSON_UNESCAPED_UNICODE
         );
+    }
+
+    public function paginateList()
+    {
     }
 
     public function createProductForm()
