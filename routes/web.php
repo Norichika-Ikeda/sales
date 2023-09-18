@@ -30,8 +30,6 @@ Route::group(
 
         Route::get('/sort', [ProductsController::class, 'sortList']);
 
-        Route::get('/paginate', [ProductsController::class, 'paginateList']);
-
         Route::get('/create', [ProductsController::class, 'createProductForm']);
 
         Route::post('/create', [ProductsController::class, 'createProduct'])->name('create');

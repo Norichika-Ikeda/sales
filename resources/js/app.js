@@ -115,7 +115,7 @@ $(function () {
         sort = $(this).attr('name');
         if (direction === 'asc'){
             direction = 'desc';
-        }else if (direction === 'desc'){
+        }else{
             direction = 'asc';
         }
     });
@@ -228,20 +228,55 @@ $(function () {
         $('.p-list tbody').empty();
         $('.pagination').empty();
         $('.p-list__sort').empty();
-        if(direction == 'asc'){
-            $('.p-list__sort').append(`<p>ソート条件：${sort} 並び順：降順</p>`);
-        } else {
-            $('.p-list__sort').append(`<p>ソート条件：${sort} 並び順：昇順</p>`);
-        };
+        $('#keyword').val('');
+        $('#company').val('');
+        $('#lower_price').val('');
+        $('#upper_price').val('');
+        $('#lower_stock').val('');
+        $('#upper_stock').val('');
 
         sort = $(this).attr('name');
         if (direction === 'asc'){
             direction = 'desc';
-        }else if (direction === 'desc'){
+        }else{
             direction = 'asc';
-        }
+        };
+
+        if (direction == 'desc') {
+            if (sort == 'id') {
+                $('.p-list__sort').append(`<p>ソート条件：id 並び順：降順</p>`);
+            } else if (sort == 'img_path') {
+                $('.p-list__sort').append(`<p>ソート条件：商品画像 並び順：降順</p>`);
+            } else if (sort == 'product_name') {
+                $('.p-list__sort').append(`<p>ソート条件：商品名 並び順：降順</p>`);
+            } else if (sort == 'price') {
+                $('.p-list__sort').append(`<p>ソート条件：価格 並び順：降順</p>`);
+            } else if (sort == 'stock') {
+                $('.p-list__sort').append(`<p>ソート条件：在庫数 並び順：降順</p>`);
+            } else if (sort == 'company_name'){
+                $('.p-list__sort').append(`<p>ソート条件：メーカー名 並び順：降順</p>`);
+            } else {
+                $('.p-list__sort').append(`<p>ソート条件： 並び順：</p>`);
+            }
+        } else {
+            if (sort == 'id') {
+                $('.p-list__sort').append(`<p>ソート条件：id 並び順：昇順</p>`);
+            } else if (sort == 'img_path') {
+                $('.p-list__sort').append(`<p>ソート条件：商品画像 並び順：昇順</p>`);
+            } else if (sort == 'product_name') {
+                $('.p-list__sort').append(`<p>ソート条件：商品名 並び順：昇順</p>`);
+            } else if (sort == 'price') {
+                $('.p-list__sort').append(`<p>ソート条件：価格 並び順：昇順</p>`);
+            } else if (sort == 'stock') {
+                $('.p-list__sort').append(`<p>ソート条件：在庫数 並び順：昇順</p>`);
+            } else if (sort == 'company_name') {
+                $('.p-list__sort').append(`<p>ソート条件：メーカー名 並び順：昇順</p>`);
+            } else {
+                $('.p-list__sort').append(`<p>ソート条件： 並び順：</p>`);
+            }
+        };
         $.ajax({
-            url: 'sort?',
+            url: 'sort?page=1',
             type: 'GET',
             data: {
                 'sort': sort,
@@ -275,10 +310,10 @@ $(function () {
                 html += `<td class="p-list__remove"><button type="submit" id=${id} class="btn btn-danger">削除</button></td>`;
                 $('.p-list tbody').append(html);
             })
-            var page = data.products.current_page;
-            var next_page_url = data.products.next_page_url;
-            var prev_page_url = data.products.prev_page_url;
-            var last_page = data.products.last_page;
+            let page = data.products.current_page;
+            let next_page_url = data.products.next_page_url;
+            let prev_page_url = data.products.prev_page_url;
+            let last_page = data.products.last_page;
 
             //ページネーター描画
             //Prev 制御
@@ -291,28 +326,29 @@ $(function () {
             }
 
             //ページリンク
-            for (var i = 0; i < last_page; i++) {
-                var link_page = i + 1;
+            for(var i=0;i<last_page;i++)
+            {
+                var link_page = i+1;
 
                 //activeにするかどうか
-                if (page == link_page) {
+                if(page==link_page)
+                {
                     $(".pagination").append(
                         `<li class='page-item active'><span class='page-link'>${link_page}</span></li>`);
-                } else {
+                }else{
                     $(".pagination").append(
-                        `<li class='page-item'><button class='page-link' href='https://localhost/sales/public/sort?page=${link_page}'>${link_page}</button></li>`);
+                        `<li class='page-item'><button class='page-link' href='https://localhost/sales/public/search?page=${link_page}'>${link_page}</button></li>`);
                 }
             }
 
             //Next制御
-            if (next_page_url == null) {
+            if(next_page_url == null){
                 $(".pagination").append(
                     "<li class='page-item disabled' aria-disabled='true' aria-label='Next »'><span class='page-link' aria-hidden='true'>›</span></li>");
-            } else {
+            }else{
                 $(".pagination").append(
                     `<li class='page-item'><button class='page-link' href='${next_page_url}' rel='next' aria-label='Next »'>›</button></li>`);
             }
-
         }).fail(function () {
             //ajax通信がエラーのときの処理
             console.log('通信に失敗しました。');
@@ -331,8 +367,7 @@ $(function () {
             $.ajax({
                 url: 'delete/' + userId,
                 type: 'POST',
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 data: {
                     'id': userId,
                     '_method': 'DELETE'
