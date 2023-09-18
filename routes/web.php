@@ -28,6 +28,8 @@ Route::group(
 
         Route::get('/search', [ProductsController::class, 'searchList']);
 
+        Route::get('/sort', [ProductsController::class, 'sortList']);
+
         Route::get('/paginate', [ProductsController::class, 'paginateList']);
 
         Route::get('/create', [ProductsController::class, 'createProductForm']);

@@ -6,15 +6,14 @@ use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductsRequest;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 
 class ProductsController extends Controller
 {
-    public function showList(Request $request)
+    public function showList()
     {
         $companies = DB::table('companies')->get();
         $query = Products::with('company');
-        $products = $query->sortable()->orderByDesc('id')->paginate(3);
+        $products = $query->sortable()->orderByDesc('id')->paginate(5);
         return view('list', ['products' => $products, 'companies' => $companies]);
     }
 
@@ -27,6 +26,8 @@ class ProductsController extends Controller
         $upper_price = $request->input('upper_price');
         $lower_stock = $request->input('lower_stock');
         $upper_stock = $request->input('upper_stock');
+        $sort = $request->input('sort');
+        $direction = $request->input('direction');
         if (!empty($keyword)) {
             $query->where(function ($q) use ($keyword) {
                 $q->where('product_name', 'like', "%{$keyword}%")
@@ -52,31 +53,94 @@ class ProductsController extends Controller
         if (!empty($upper_stock)) {
             $query->where('stock', '<=', $upper_stock);
         }
-        $products = $query->sortable()->orderByDesc('id')->paginate(4);
-        $paginator = DB::table('products')->paginate(10);
-        $items = $paginator->items();
-        $nextPageUrl = $paginator->nextPageUrl();
-        // $nextPageUrl = $products->nextPageUrl();
-        // if ($nextPageUrl) {
-        //     // 次のページのデータを取得
-        //     $nextPageData = $nextPageUrl->nextPageItems();
-        // }
-        $param['keyword'] = $request->keyword;
-        $param['company'] = $request->company;
-        $param['lower_price'] = $request->input('lower_price');
-        $param['upper_price'] = $request->input('upper_price');
-        $param['lower_stock'] = $request->input('lower_stock');
-        $param['upper_stock'] = $request->input('upper_stock');
+        if ($direction == 'desc') {
+            if ($sort == 'id') {
+                $products = $query->orderByDesc('id')->paginate(5);
+            } elseif ($sort == 'img_path') {
+                $products = $query->orderByDesc('img_path')->paginate(5);
+            } elseif ($sort == 'product_name') {
+                $products = $query->orderByDesc('product_name')->paginate(5);
+            } elseif ($sort == 'price') {
+                $products = $query->orderByDesc('price')->paginate(5);
+            } elseif ($sort == 'stock') {
+                $products = $query->orderByDesc('stock')->paginate(5);
+            } elseif ($sort == 'company_name') {
+                $products = $query->orderByDesc('company_id')->paginate(5);
+            } else {
+                $products = $query->orderByDesc('id')->paginate(5);
+            }
+        } elseif ($direction == 'asc') {
+            if ($sort == 'id') {
+                $products = $query->orderBy('id')->paginate(5);
+            } elseif ($sort == 'img_path') {
+                $products = $query->orderBy('img_path')->paginate(5);
+            } elseif ($sort == 'product_name') {
+                $products = $query->orderBy('product_name')->paginate(5);
+            } elseif ($sort == 'price') {
+                $products = $query->orderBy('price')->paginate(5);
+            } elseif ($sort == 'stock') {
+                $products = $query->orderBy('stock')->paginate(5);
+            } elseif ($sort == 'company_name') {
+                $products = $query->orderBy('company_id')->paginate(5);
+            } else {
+                $products = $query->orderBy('id')->paginate(5);
+            }
+        } else {
+            $products = $query->orderByDesc('id')->paginate(5);
+        }
         return response()->json(
-            compact('products', 'param'),
+            compact('products'),
             200,
             [],
             JSON_UNESCAPED_UNICODE
         );
     }
 
-    public function paginateList()
+    public function sortList(Request $request)
     {
+        $query = Products::with('company:id,company_name');
+        $sort = $request->input('sort');
+        $direction = $request->input('direction');
+        if ($direction == 'desc') {
+            if ($sort == 'id') {
+                $products = $query->orderByDesc('id')->paginate(5);
+            } elseif ($sort == 'img_path') {
+                $products = $query->orderByDesc('img_path')->paginate(5);
+            } elseif ($sort == 'product_name') {
+                $products = $query->orderByDesc('product_name')->paginate(5);
+            } elseif ($sort == 'price') {
+                $products = $query->orderByDesc('price')->paginate(5);
+            } elseif ($sort == 'stock') {
+                $products = $query->orderByDesc('stock')->paginate(5);
+            } elseif ($sort == 'company_name') {
+                $products = $query->orderByDesc('company_id')->paginate(5);
+            } else {
+                $products = $query->orderByDesc('id')->paginate(5);
+            }
+        }
+        if ($direction == 'asc') {
+            if ($sort == 'id') {
+                $products = $query->orderBy('id')->paginate(5);
+            } elseif ($sort == 'img_path') {
+                $products = $query->orderBy('img_path')->paginate(5);
+            } elseif ($sort == 'product_name') {
+                $products = $query->orderBy('product_name')->paginate(5);
+            } elseif ($sort == 'price') {
+                $products = $query->orderBy('price')->paginate(5);
+            } elseif ($sort == 'stock') {
+                $products = $query->orderBy('stock')->paginate(5);
+            } elseif ($sort == 'company_name') {
+                $products = $query->orderBy('company_id')->paginate(5);
+            } else {
+                $products = $query->orderBy('id')->paginate(5);
+            }
+        }
+        return response()->json(
+            compact('products'),
+            200,
+            [],
+            JSON_UNESCAPED_UNICODE
+        );
     }
 
     public function createProductForm()

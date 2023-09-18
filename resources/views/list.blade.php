@@ -38,15 +38,28 @@
         </div>
     </div>
     <div class="p-list">
-        <table class="table table-striped table-bordered text-center">
+        <div class="p-list__sort"></div>
+        <table id="table" class="table table-striped table-bordered text-center">
             <thead>
                 <tr>
-                    <th>@sortablelink('id', 'ID')</th>
-                    <th>@sortablelink('img_path', '商品画像')</th>
-                    <th>@sortablelink('product_name', '商品名')</th>
-                    <th>@sortablelink('price', '価格')</th>
-                    <th>@sortablelink('stock', '在庫数')</th>
-                    <th>@sortablelink('company_name', 'メーカー名')</th>
+                    <th class="sort">
+                        <p name="id">id</p>
+                    </th>
+                    <th class="sort">
+                        <p name="img_path">商品画像</p>
+                    </th>
+                    <th class="sort">
+                        <p name="product_name">商品名</p>
+                    </th>
+                    <th class="sort">
+                        <p name="price">価格</p>
+                    </th>
+                    <th class="sort">
+                        <p name="stock">在庫数</p>
+                    </th>
+                    <th class="sort">
+                        <p name="company_name">メーカー名</p>
+                    </th>
                     <th colspan="2"><a href="create" class="btn btn-warning">新規登録</a></th>
                 </tr>
             </thead>
@@ -74,7 +87,7 @@
                 @endforeach
             </tbody>
         </table>
-        {{ $products->links() }}
+        {{ $products->appends(request()->query())->links() }}
     </div>
 </div>
 @push('script')
