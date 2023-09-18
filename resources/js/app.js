@@ -61,7 +61,7 @@ $(function () {
                 $('.p-list tbody').append(html);
             })
 
-            let page = data.products.current_page;
+            let current_page = data.products.current_page;
             let next_page_url = data.products.next_page_url;
             let prev_page_url = data.products.prev_page_url;
             let last_page = data.products.last_page;
@@ -81,7 +81,7 @@ $(function () {
                 var link_page = i+1;
 
                 //activeにするかどうか
-                if(page==link_page)
+                if(current_page==link_page)
                 {
                     $(".pagination").append(
                         `<li class='page-item active'><span class='page-link'>${link_page}</span></li>`);
@@ -124,7 +124,7 @@ $(function () {
         $('.p-list tbody').empty();
         $('.pagination').empty();
 
-        var page = $(this).attr('href').split('page=')[1];
+        let page = $(this).attr('href').split('page=')[1];
         // 現在の検索クエリを取得
         let keyword = $('#keyword').val();
         let company = $('#company').val();
@@ -132,93 +132,93 @@ $(function () {
         let upper_price = $('#upper_price').val();
         let lower_stock = $('#lower_stock').val();
         let upper_stock = $('#upper_stock').val();
-        $.ajax({
-            type: 'GET',
-            url: 'search?page=' + page,
-            async: false,
-            data: {
-                keyword: keyword,
-                company: company,
-                lower_price: lower_price,
-                upper_price: upper_price,
-                lower_stock: lower_stock,
-                upper_stock: upper_stock,
-                'sort': sort,
-                'direction': direction
-            },
-            dataType: 'json',
-        })
-        .done(function (data) {
-            let res = data.products.data;
-            $.each(res, function (index, value) {
-                let id = value.id;
-                let img_path = value.img_path;
-                let product_name = value.product_name;
-                let price = value.price;
-                let stock = value.stock;
-                let company_name = value.company.company_name;
-                let html = '<tr>';
-                html += `<td>${id}</td>`;
-                if (img_path) {
-                    html += `<td><img src="http://localhost/sales/public/storage/images/${img_path}"></td>`;
-                } else {
-                    html += '<td><p class="m-0">商品画像</p></td>';
-                };
-                html += `<td>${product_name}</td>`;
-                html += `<td>￥${price}</td>`;
-                html += `<td>${stock}</td>`;
-                html += `<td>${company_name}</td>`;
-                let detail_form = `<form action="detail/${id}" method="GET">`;
-                detail_form += '<button type="submit" class="btn btn-info">詳細</button>';
-                detail_form += '</form>';
-                html += `<td class="p-list__detail">${detail_form}</td>`;
-                html += `<td class="p-list__remove"><button type="submit" id=${id} class="btn btn-danger">削除</button></td>`;
-                $('.p-list tbody').append(html);
-            })
-            let page = data.products.current_page;
-            let next_page_url = data.products.next_page_url;
-            let prev_page_url = data.products.prev_page_url;
-            let last_page = data.products.last_page;
-
-            //ページネーター描画
-            //Prev 制御
-            if (prev_page_url == null) {
-                $(".pagination").append(
-                    "<li class='page-item disabled' aria-disabled='true' aria-label='« Previous'><span class='page-link' aria-hidden='true'>‹</span></li>")
+    $.ajax({
+        type: 'GET',
+        url: 'search?page=' + page,
+        async: false,
+        data: {
+            keyword: keyword,
+            company: company,
+            lower_price: lower_price,
+            upper_price: upper_price,
+            lower_stock: lower_stock,
+            upper_stock: upper_stock,
+            'sort': sort,
+            'direction': direction
+        },
+        dataType: 'json',
+    })
+    .done(function (data) {
+        let res = data.products.data;
+        $.each(res, function (index, value) {
+            let id = value.id;
+            let img_path = value.img_path;
+            let product_name = value.product_name;
+            let price = value.price;
+            let stock = value.stock;
+            let company_name = value.company.company_name;
+            let html = '<tr>';
+            html += `<td>${id}</td>`;
+            if (img_path) {
+                html += `<td><img src="http://localhost/sales/public/storage/images/${img_path}"></td>`;
             } else {
-                $(".pagination").append(
-                    `<li class='page-item'><button class='page-link' href='${prev_page_url}' rel='prev' aria-label='« Previous'>‹</button></li>`);
-            }
+                html += '<td><p class="m-0">商品画像</p></td>';
+            };
+            html += `<td>${product_name}</td>`;
+            html += `<td>￥${price}</td>`;
+            html += `<td>${stock}</td>`;
+            html += `<td>${company_name}</td>`;
+            let detail_form = `<form action="detail/${id}" method="GET">`;
+            detail_form += '<button type="submit" class="btn btn-info">詳細</button>';
+            detail_form += '</form>';
+            html += `<td class="p-list__detail">${detail_form}</td>`;
+            html += `<td class="p-list__remove"><button type="submit" id=${id} class="btn btn-danger">削除</button></td>`;
+            $('.p-list tbody').append(html);
+        })
+        let current_page = data.products.current_page;
+        let next_page_url = data.products.next_page_url;
+        let prev_page_url = data.products.prev_page_url;
+        let last_page = data.products.last_page;
 
-            //ページリンク
-            for(var i=0;i<last_page;i++)
+        //ページネーター描画
+        //Prev 制御
+        if (prev_page_url == null) {
+            $(".pagination").append(
+                "<li class='page-item disabled' aria-disabled='true' aria-label='« Previous'><span class='page-link' aria-hidden='true'>‹</span></li>")
+        } else {
+            $(".pagination").append(
+                `<li class='page-item'><button class='page-link' href='${prev_page_url}' rel='prev' aria-label='« Previous'>‹</button></li>`);
+        }
+
+        //ページリンク
+        for(var i=0;i<last_page;i++)
+        {
+            var link_page = i+1;
+
+            //activeにするかどうか
+            if(current_page==link_page)
             {
-                var link_page = i+1;
-
-                //activeにするかどうか
-                if(page==link_page)
-                {
-                    $(".pagination").append(
-                        `<li class='page-item active'><span class='page-link'>${link_page}</span></li>`);
-                }else{
-                    $(".pagination").append(
-                        `<li class='page-item'><button class='page-link' href='https://localhost/sales/public/search?page=${link_page}'>${link_page}</button></li>`);
-                }
-            }
-
-            //Next制御
-            if(next_page_url == null){
                 $(".pagination").append(
-                    "<li class='page-item disabled' aria-disabled='true' aria-label='Next »'><span class='page-link' aria-hidden='true'>›</span></li>");
+                    `<li class='page-item active'><span class='page-link'>${link_page}</span></li>`);
             }else{
                 $(".pagination").append(
-                    `<li class='page-item'><button class='page-link' href='${next_page_url}' rel='next' aria-label='Next »'>›</button></li>`);
+                    `<li class='page-item'><button class='page-link' href='https://localhost/sales/public/search?page=${link_page}'>${link_page}</button></li>`);
             }
+        }
 
-            }).fail(function () {
-                alert('エラーが発生しました。');
-            });
+        //Next制御
+        if(next_page_url == null){
+            $(".pagination").append(
+                "<li class='page-item disabled' aria-disabled='true' aria-label='Next »'><span class='page-link' aria-hidden='true'>›</span></li>");
+        }else{
+            $(".pagination").append(
+                `<li class='page-item'><button class='page-link' href='${next_page_url}' rel='next' aria-label='Next »'>›</button></li>`);
+        }
+
+        }).fail(function () {
+            alert('エラーが発生しました。');
         });
+    });
 })
 
 $(function () {
@@ -310,7 +310,7 @@ $(function () {
                 html += `<td class="p-list__remove"><button type="submit" id=${id} class="btn btn-danger">削除</button></td>`;
                 $('.p-list tbody').append(html);
             })
-            let page = data.products.current_page;
+            let current_page = data.products.current_page;
             let next_page_url = data.products.next_page_url;
             let prev_page_url = data.products.prev_page_url;
             let last_page = data.products.last_page;
@@ -331,7 +331,7 @@ $(function () {
                 var link_page = i+1;
 
                 //activeにするかどうか
-                if(page==link_page)
+                if(current_page==link_page)
                 {
                     $(".pagination").append(
                         `<li class='page-item active'><span class='page-link'>${link_page}</span></li>`);
