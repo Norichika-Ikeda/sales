@@ -33,12 +33,4 @@ class Sales extends Model
             return response()->json('在庫がありません', 422, ['Content-Type' => 'application/json'], JSON_UNESCAPED_UNICODE);
         }
     }
-
-    public function decrementProducts($data)
-    {
-        DB::table('sales')
-            ->where('product_id')
-            ->join('products', 'sales.product_id', '=', 'products.id')
-            ->decrement('stock', 1);
-    }
 }

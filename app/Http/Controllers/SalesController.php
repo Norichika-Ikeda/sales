@@ -11,8 +11,13 @@ class SalesController extends Controller
 {
     public function buyProducts(Request $request)
     {
-        $sales = new Sales();
-        $result = $sales->addSales($request);
-        return $result;
+        DB::beginTransaction();
+        try {
+            $sales = new Sales();
+            $sales->addSales($request);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+        }
     }
 }
