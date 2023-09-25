@@ -14,10 +14,11 @@ class SalesController extends Controller
         DB::beginTransaction();
         try {
             $sales = new Sales();
-            $sales->addSales($request);
+            $result = $sales->addSales($request);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
         }
+        return $result;
     }
 }
