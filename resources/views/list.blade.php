@@ -17,18 +17,18 @@
         </div>
         <div class="mt-4 d-flex align-items-center">
             <div class=" col-2 float-start form-group">
-                {{ Form::input('number', 'lower_price', null, ['id' => 'lower_price', 'class' => 'form-control input-group-prepend', 'placeholder' => '下限価格']) }}
+                {{ Form::input('number', 'lower_price', null, ['id' => 'lower_price', 'class' => 'form-control input-group-prepend', 'placeholder' => '下限価格', 'oninput' => 'value=value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,"")']) }}
             </div>
             <p class="w-auto mx-3 mb-0 align-items-center text-center">~</p>
             <div class="col-2 me-3 float-start form-group">
-                {{ Form::input('number', 'upper_price', null, ['id' => 'upper_price', 'class' => 'form-control input-group-prepend', 'placeholder' => '上限価格']) }}
+                {{ Form::input('number', 'upper_price', null, ['id' => 'upper_price', 'class' => 'form-control input-group-prepend', 'placeholder' => '上限価格', 'oninput' => 'value=value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,"")']) }}
             </div>
             <div class="col-2 ms-3 float-start form-group">
-                {{ Form::input('number', 'lower_stock', null, ['id' => 'lower_stock', 'class' => 'form-control input-group-prepend', 'placeholder' => '下限在庫数']) }}
+                {{ Form::input('number', 'lower_stock', null, ['id' => 'lower_stock', 'class' => 'form-control input-group-prepend', 'placeholder' => '下限在庫数', 'oninput' => 'value=value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,"")']) }}
             </div>
             <p class="w-auto mx-3 mb-0 align-items-center text-center">~</p>
             <div class="col-2 float-start form-group">
-                {{ Form::input('number', 'upper_stock', null, ['id' => 'upper_stock', 'class' => 'form-control input-group-prepend', 'placeholder' => '上限在庫数']) }}
+                {{ Form::input('number', 'upper_stock', null, ['id' => 'upper_stock', 'class' => 'form-control input-group-prepend', 'placeholder' => '上限在庫数', 'oninput' => 'value=value.replace(/[０-９]/g,s => String.fromCharCode(s.charCodeAt(0) - 65248)).replace(/\D/g,"")']) }}
             </div>
             <div class="col-2 text-end ml-auto p-search__box">
                 <button type="button" class="btn btn-secondary px-4 p-search__box--btn"></i>
